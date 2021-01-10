@@ -1,1 +1,4 @@
-Below are the assumptions
+Below are the assumptions/information
+1>By default level for log4J2 is set to info level , it is advised to set level to debug level to get more details if any error occurred.
+2>For user interaction purpose only console appender is enable in log4J2 configuration , if required please enable/uncomment the file appender entry of log4J2 configuration.
+
