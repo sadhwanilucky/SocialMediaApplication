@@ -3,6 +3,7 @@ package com.cs.socialmedia.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import com.cs.socialmedia.dto.Post;
+import com.cs.socialmedia.util.SocialMediaConstants;
 
 
 @TestMethodOrder(OrderAnnotation.class)
@@ -76,6 +78,28 @@ public class PostServiceTest  {
 		assertTrue(postList.stream().anyMatch(obj -> obj.getContent().equals("message15")));
 	}
 	
+	@Test
+	public void testGetNewsFeedForMaxFeedLimit() {
+		followService.followUser("lucky", "pankaj");
+		followService.followUser("lucky", "sagar123");
+		List<Post> postList = postService.getNewsFeed("lucky");
+		assertEquals(SocialMediaConstants.FEED_LIST_LIMIT, postList.size());
+		followService.unfollowUser("lucky", "pankaj");
+		followService.unfollowUser("lucky", "sagar123");
+	}
+	
+	@Test
+	public void testGetNewsFeedForUnavailableUserId() {
+		List<Post> postList = postService.getNewsFeed("TestUnvailable");
+		assertNull(postList);
+	}
+	
+	@Test
+	public void testGetNewsFeedForEmptyPostList() {
+		followService.followUser("Test1", "Test2");
+		List<Post> postList = postService.getNewsFeed("Test1");
+		assertEquals(0, postList.size());
+	}
 	
 	
 	private static void createPost() {

@@ -19,6 +19,7 @@ public class PostService implements IPostService {
 	public boolean createPost(String userId, String content) {
 		logger.debug("Entering createPost method of PostService");
 		try {
+			//For Junit we have added below additional check as same validations are done in main class
 			if (Objects.nonNull(userId)) {
 				return postDAO.createPost(userId.toLowerCase(), content);
 			} else {

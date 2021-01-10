@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.platform.commons.util.StringUtils;
 
 import com.cs.socialmedia.dto.Post;
 import com.cs.socialmedia.service.FollowService;
@@ -39,8 +40,8 @@ public class SocialMediaMain {
 						+ "3. Unfollow a User \n" 
 						+ "4. Get recent news feed \n" + "5. Exit \n"
 						+ "Enter Numeric Value of choice => ");
-				int choice = Integer.parseInt(reader.readLine());
-
+				String input = reader.readLine();
+				int choice = isInteger(input) ? Integer.parseInt(input) : 0;
 				switch (choice) {
 				case 1:
 					createPost();
@@ -149,6 +150,16 @@ public class SocialMediaMain {
 			return false;
 		}
 		return true;
+	}
+	
+	private static boolean isInteger( String input ) {
+	    try {
+	        Integer.parseInt( input );
+	        return true;
+	    }
+	    catch( Exception e ) {
+	        return false;
+	    }
 	}
 
 }

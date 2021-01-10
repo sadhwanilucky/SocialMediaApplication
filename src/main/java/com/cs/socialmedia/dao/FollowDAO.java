@@ -41,6 +41,7 @@ public class FollowDAO implements IFollowDAO {
 			Set<String> followeeList = optionalFolloweeList.get();
 			if (followeeList.contains(followeeId)) {
 				logger.debug("user " + followerId + " is already following " + followeeId);
+				return false;
 			} else {
 				followeeList.add(followeeId);
 			}

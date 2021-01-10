@@ -11,16 +11,16 @@ import org.junit.jupiter.api.Test;
 
 @TestMethodOrder(OrderAnnotation.class)
 public class FollowServiceTest {
-	
+
 	private static IPostService postService = new PostService();
 	private IFollowService followService = new FollowService();
-	
+
 	@BeforeAll
-    public static void setup() {
+	public static void setup() {
 		createPost();
-		
+
 	}
-	
+
 	@Test
 	public void testFollowAndUnfollowUser() {
 		boolean result = followService.followUser("lucky", "sagar123");
@@ -28,20 +28,47 @@ public class FollowServiceTest {
 		result = followService.unfollowUser("lucky", "sagar123");
 		assertTrue(result);
 	}
-	
+
 	@Test
 	public void testFollowUnavailableUser() {
 		boolean result = followService.followUser("lucky", "unavailable");
 		assertTrue(result);
-	
+
 	}
-	
+
 	@Test
 	public void testUnfollowUnavailableUser() {
 		boolean result = followService.unfollowUser("lucky", "unavailable");
 		assertFalse(result);
 	}
+
+	@Test
+	public void testfollowSelf() {
+		boolean result = followService.followUser("lucky", "lucky");
+		assertFalse(result);
+	}
+
+	@Test
+	public void testfollowMultipleTimeSameUser() {
+		boolean result = followService.followUser("lucky", "sagar123");
+		assertTrue(result);
+		result = followService.followUser("lucky", "sagar123");
+		assertFalse(result);
+		result = followService.unfollowUser("lucky", "sagar123");
+	}
 	
+	@Test
+	public void testFollowWithEmptyId() {
+		boolean result = followService.followUser("", "");
+		assertFalse(result);
+	}
+	
+	@Test
+	public void testUnfollowWithEmptyId() {
+		boolean result = followService.unfollowUser("", "");
+		assertFalse(result);
+	}
+
 	private static void createPost() {
 		postService.createPost("lucky", "message1");
 		postService.createPost("lucky", "message2");
